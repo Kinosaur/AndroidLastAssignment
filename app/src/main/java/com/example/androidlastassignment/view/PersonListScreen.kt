@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,14 +39,14 @@ import com.example.androidlastassignment.model.PersonEntity
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PersonListScreen(modifier : Modifier, personEntityList: List<PersonEntity>,
-                     loadPersonClicked : () -> Unit,
-                     viewGalleryClicked : () -> Unit,
-                     personEntityDelete : (personEntity : PersonEntity) -> Unit,
-                     imageDelete : (image : String) -> Unit,
-                     saveClicked : (image : String) -> Unit ) {
+fun PersonListScreen(modifier: Modifier, personEntityList: List<PersonEntity>,
+                     loadPersonClicked: () -> Unit,
+                     viewGalleryClicked: () -> Unit,
+                     personEntityDelete: (personEntity: PersonEntity) -> Unit,
+                     imageDelete: (image: String) -> Unit,
+                     saveClicked: (image: String) -> Unit) {
 
-    val groupedNames = personEntityList.groupBy{ it.first.first() }.toSortedMap()
+    val groupedNames = personEntityList.groupBy { it.first.first() }.toSortedMap()
 
     Column(modifier.padding(16.dp)) {
         LazyColumn(modifier = modifier.weight(1f)) {
@@ -75,7 +76,7 @@ fun PersonListScreen(modifier : Modifier, personEntityList: List<PersonEntity>,
                         Row(modifier = Modifier
                             .fillMaxWidth()
                             .height(65.dp)
-                            .background(Color.LightGray)){
+                            .background(MaterialTheme.colorScheme.background)) { // Use background color
                             Button(onClick = {
                                 Log.d("PersonListScreen", "Save button clicked: ${item.large}")
                                 saveClicked(item.large) // this will trigger saveImage in PersonViewModel
@@ -83,7 +84,7 @@ fun PersonListScreen(modifier : Modifier, personEntityList: List<PersonEntity>,
                             }, colors = ButtonDefaults.buttonColors(containerColor = Color.Green,
                                 contentColor = Color.Black),
                                 modifier = Modifier.fillMaxWidth().wrapContentWidth(Alignment.Start)
-                                    .weight(1f)){
+                                    .weight(1f)) {
                                 Text("Save")
                             }
 
@@ -94,18 +95,18 @@ fun PersonListScreen(modifier : Modifier, personEntityList: List<PersonEntity>,
                             }, colors = ButtonDefaults.buttonColors(containerColor = Color.Red,
                                 contentColor = Color.White),
                                 modifier = Modifier.fillMaxWidth().wrapContentWidth(Alignment.End)
-                                    .weight(1f)){
+                                    .weight(1f)) {
                                 Text("Delete")
                             }
                         }
 
-                        //using z-index or putting last put this over everything in box
-                        Card (
+                        // Updated Card background color using surface color
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(65.dp)
                                 .offset(offsetX.floatValue.dp)
-                                .background(color = Color.White)
+                                .background(MaterialTheme.colorScheme.surface) // Use surface color
                                 .pointerInput(Unit) {
                                     detectHorizontalDragGestures(
                                         onHorizontalDrag = { _, dragAmount ->
@@ -161,7 +162,7 @@ fun PersonListScreen(modifier : Modifier, personEntityList: List<PersonEntity>,
             },
             modifier = Modifier
                 .fillMaxWidth()
-        ){
+        ) {
             Text("View Gallery", modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.CenterHorizontally)
